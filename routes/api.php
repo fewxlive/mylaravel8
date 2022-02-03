@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-
 });
 
 use App\Http\Controllers\API\BookController;
 Route::apiResource('book', BookController::class);
-
+use App\Http\Controllers\API\LocationController;
+Route::apiResource('location', LocationController::class);
 
