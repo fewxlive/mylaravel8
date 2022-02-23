@@ -27,6 +27,10 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $requestData = $request->all();
+        if ($request->hasFile('image')) {
+            $filename = $request->file('image')->store('uploads', 'public');
+            $requestData['image'] = asset('storage/'.$filename);
+        }    
         $book = Book::create($requestData);
         return ["success" => true, "data" => $book];
 
@@ -53,9 +57,13 @@ class BookController extends Controller
     public function update(Request $request, $id)
     {
         $requestData = $request->all();
+        if ($request->hasFile('image')) {
+            $filename = $request->file('image')->store('uploads', 'public');
+            $requestData['image'] = asset('storage/'.$filename);
+        }    
         $book = Book::findOrFail($id);
         $success = $book->update($requestData);
-        return ["success" => $success];
+        return ["success" => $success, "data"=>$requestData, "book"=> $book];
 
     }
 
